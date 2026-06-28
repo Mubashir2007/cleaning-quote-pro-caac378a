@@ -14,7 +14,251 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      customers: {
+        Row: {
+          address: string | null
+          city: string | null
+          created_at: string
+          email: string | null
+          full_name: string
+          id: string
+          notes: string | null
+          phone: string | null
+          postcode: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          address?: string | null
+          city?: string | null
+          created_at?: string
+          email?: string | null
+          full_name: string
+          id?: string
+          notes?: string | null
+          phone?: string | null
+          postcode?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          address?: string | null
+          city?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string
+          id?: string
+          notes?: string | null
+          phone?: string | null
+          postcode?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      pricing_settings: {
+        Row: {
+          airbnb_base: number
+          balcony: number
+          carpet_cleaning: number
+          created_at: string
+          deep_base: number
+          discount_pct: number
+          end_of_tenancy_base: number
+          extra_bathroom: number
+          extra_bedroom: number
+          extra_living_room: number
+          fridge_cleaning: number
+          garage: number
+          inside_cabinets: number
+          office_base: number
+          oven_cleaning: number
+          regular_base: number
+          tax_pct: number
+          updated_at: string
+          user_id: string
+          window_cleaning: number
+        }
+        Insert: {
+          airbnb_base?: number
+          balcony?: number
+          carpet_cleaning?: number
+          created_at?: string
+          deep_base?: number
+          discount_pct?: number
+          end_of_tenancy_base?: number
+          extra_bathroom?: number
+          extra_bedroom?: number
+          extra_living_room?: number
+          fridge_cleaning?: number
+          garage?: number
+          inside_cabinets?: number
+          office_base?: number
+          oven_cleaning?: number
+          regular_base?: number
+          tax_pct?: number
+          updated_at?: string
+          user_id: string
+          window_cleaning?: number
+        }
+        Update: {
+          airbnb_base?: number
+          balcony?: number
+          carpet_cleaning?: number
+          created_at?: string
+          deep_base?: number
+          discount_pct?: number
+          end_of_tenancy_base?: number
+          extra_bathroom?: number
+          extra_bedroom?: number
+          extra_living_room?: number
+          fridge_cleaning?: number
+          garage?: number
+          inside_cabinets?: number
+          office_base?: number
+          oven_cleaning?: number
+          regular_base?: number
+          tax_pct?: number
+          updated_at?: string
+          user_id?: string
+          window_cleaning?: number
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          business_address: string | null
+          company_logo_url: string | null
+          company_name: string
+          created_at: string
+          currency: string
+          default_notes: string | null
+          email: string | null
+          id: string
+          phone: string | null
+          terms_and_conditions: string | null
+          updated_at: string
+          vat_number: string | null
+          website: string | null
+        }
+        Insert: {
+          business_address?: string | null
+          company_logo_url?: string | null
+          company_name?: string
+          created_at?: string
+          currency?: string
+          default_notes?: string | null
+          email?: string | null
+          id: string
+          phone?: string | null
+          terms_and_conditions?: string | null
+          updated_at?: string
+          vat_number?: string | null
+          website?: string | null
+        }
+        Update: {
+          business_address?: string | null
+          company_logo_url?: string | null
+          company_name?: string
+          created_at?: string
+          currency?: string
+          default_notes?: string | null
+          email?: string | null
+          id?: string
+          phone?: string | null
+          terms_and_conditions?: string | null
+          updated_at?: string
+          vat_number?: string | null
+          website?: string | null
+        }
+        Relationships: []
+      }
+      quotes: {
+        Row: {
+          base_price: number
+          bathroom_extra_total: number
+          bathrooms: number
+          bedroom_extra_total: number
+          bedrooms: number
+          cleaning_type: Database["public"]["Enums"]["cleaning_type"]
+          created_at: string
+          customer_id: string
+          discount_amount: number
+          extras: Json
+          extras_total: number
+          frequency: Database["public"]["Enums"]["frequency"]
+          id: string
+          living_room_total: number
+          living_rooms: number
+          notes: string | null
+          quote_number: string
+          square_footage: number | null
+          status: Database["public"]["Enums"]["quote_status"]
+          tax_amount: number
+          total: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          base_price?: number
+          bathroom_extra_total?: number
+          bathrooms?: number
+          bedroom_extra_total?: number
+          bedrooms?: number
+          cleaning_type: Database["public"]["Enums"]["cleaning_type"]
+          created_at?: string
+          customer_id: string
+          discount_amount?: number
+          extras?: Json
+          extras_total?: number
+          frequency?: Database["public"]["Enums"]["frequency"]
+          id?: string
+          living_room_total?: number
+          living_rooms?: number
+          notes?: string | null
+          quote_number?: string
+          square_footage?: number | null
+          status?: Database["public"]["Enums"]["quote_status"]
+          tax_amount?: number
+          total?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          base_price?: number
+          bathroom_extra_total?: number
+          bathrooms?: number
+          bedroom_extra_total?: number
+          bedrooms?: number
+          cleaning_type?: Database["public"]["Enums"]["cleaning_type"]
+          created_at?: string
+          customer_id?: string
+          discount_amount?: number
+          extras?: Json
+          extras_total?: number
+          frequency?: Database["public"]["Enums"]["frequency"]
+          id?: string
+          living_room_total?: number
+          living_rooms?: number
+          notes?: string | null
+          quote_number?: string
+          square_footage?: number | null
+          status?: Database["public"]["Enums"]["quote_status"]
+          tax_amount?: number
+          total?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quotes_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +267,9 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      cleaning_type: "regular" | "deep" | "end_of_tenancy" | "office" | "airbnb"
+      frequency: "one_time" | "weekly" | "fortnightly" | "monthly"
+      quote_status: "pending" | "accepted" | "rejected" | "completed"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +396,10 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      cleaning_type: ["regular", "deep", "end_of_tenancy", "office", "airbnb"],
+      frequency: ["one_time", "weekly", "fortnightly", "monthly"],
+      quote_status: ["pending", "accepted", "rejected", "completed"],
+    },
   },
 } as const
