@@ -1,0 +1,10 @@
+# Cleaning Quote Pro
+
+> SaaS for cleaning companies to generate professional, branded cleaning quotations in under a minute.
+
+Cleaning Quote Pro helps cleaning businesses manage customers, configure pricing rules, and produce itemised, printable quotations for residential and commercial cleaning jobs.
+
+## Pages
+
+- [Home](/): Product overview and value proposition.
+- [Sign in / Sign up](/auth): Create an account or log in.

@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /auth
+Disallow: /reset-password
+Disallow: /dashboard
+Disallow: /customers
+Disallow: /quotes
+Disallow: /settings
+
+Sitemap: https://free-speed-quoate.lovable.app/sitemap.xml
