@@ -63,8 +63,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Cleaning Quote Pro" },
-      { name: "description", content: "Generate professional cleaning quotations in under a minute." },
+      { title: "Cleaning Quote Pro — Professional Cleaning Quotes" },
+      { name: "description", content: "SaaS for cleaning companies to generate branded, itemised quotations in under a minute." },
+      { property: "og:site_name", content: "Cleaning Quote Pro" },
+      { property: "og:type", content: "website" },
     ],
     links: [{ rel: "stylesheet", href: appCss }],
   }),

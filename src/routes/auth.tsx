@@ -17,6 +17,17 @@ const searchSchema = z.object({
 export const Route = createFileRoute("/auth")({
   ssr: false,
   validateSearch: searchSchema,
+  head: () => ({
+    meta: [
+      { title: "Sign in — Cleaning Quote Pro" },
+      { name: "description", content: "Log in or create a Cleaning Quote Pro account to start generating professional cleaning quotations." },
+      { property: "og:title", content: "Sign in — Cleaning Quote Pro" },
+      { property: "og:description", content: "Log in or create a Cleaning Quote Pro account to start quoting jobs in minutes." },
+      { property: "og:url", content: "https://free-speed-quoate.lovable.app/auth" },
+      { name: "robots", content: "noindex" },
+    ],
+    links: [{ rel: "canonical", href: "https://free-speed-quoate.lovable.app/auth" }],
+  }),
   component: AuthPage,
 });
 

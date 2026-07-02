@@ -3,8 +3,43 @@ import { useAuth } from "@/hooks/use-auth";
 import { Sparkles, ShieldCheck, Zap, FileText } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 
+const SITE_URL = "https://free-speed-quoate.lovable.app";
+
 export const Route = createFileRoute("/")({
   ssr: false,
+  head: () => ({
+    meta: [
+      { title: "Cleaning Quote Pro — Professional Cleaning Quotes in Minutes" },
+      { name: "description", content: "Cleaning Quote Pro helps cleaning companies generate branded, itemised quotations in under a minute. Manage customers, pricing, and quotes in one place." },
+      { property: "og:title", content: "Cleaning Quote Pro — Professional Cleaning Quotes in Minutes" },
+      { property: "og:description", content: "Generate branded cleaning quotations in under a minute. Customers, pricing, and quotes in one place." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: `${SITE_URL}/` },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [{ rel: "canonical", href: `${SITE_URL}/` }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "Cleaning Quote Pro",
+          url: SITE_URL,
+          description: "SaaS for cleaning companies to create professional quotations in under a minute.",
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "Cleaning Quote Pro",
+          url: SITE_URL,
+        }),
+      },
+    ],
+  }),
   component: Landing,
 });
 
@@ -52,20 +87,23 @@ function Landing() {
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-5xl gap-6 px-6 pb-24 md:grid-cols-3">
-        {[
-          { icon: Zap, title: "60-second quotes", body: "Multi-step form auto-calculates totals from your pricing rules." },
-          { icon: FileText, title: "Branded PDFs", body: "Logo, terms, totals — printable and shareable in one click." },
-          { icon: ShieldCheck, title: "Your data, secured", body: "Row-level security keeps every company's data private." },
-        ].map((f) => (
-          <div key={f.title} className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)]">
-            <div className="grid h-10 w-10 place-items-center rounded-xl bg-accent text-accent-foreground">
-              <f.icon className="h-5 w-5" />
+      <section className="mx-auto max-w-5xl px-6 pb-24" aria-labelledby="features-heading">
+        <h2 id="features-heading" className="sr-only">Features</h2>
+        <div className="grid gap-6 md:grid-cols-3">
+          {[
+            { icon: Zap, title: "60-second quotes", body: "Multi-step form auto-calculates totals from your pricing rules." },
+            { icon: FileText, title: "Branded PDFs", body: "Logo, terms, totals — printable and shareable in one click." },
+            { icon: ShieldCheck, title: "Your data, secured", body: "Row-level security keeps every company's data private." },
+          ].map((f) => (
+            <div key={f.title} className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)]">
+              <div className="grid h-10 w-10 place-items-center rounded-xl bg-accent text-accent-foreground">
+                <f.icon className="h-5 w-5" />
+              </div>
+              <h3 className="mt-4 font-semibold">{f.title}</h3>
+              <p className="mt-1 text-sm text-muted-foreground">{f.body}</p>
             </div>
-            <h3 className="mt-4 font-semibold">{f.title}</h3>
-            <p className="mt-1 text-sm text-muted-foreground">{f.body}</p>
-          </div>
-        ))}
+          ))}
+        </div>
       </section>
     </div>
   );

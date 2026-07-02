@@ -137,9 +137,9 @@ function QuotesListPage() {
                     <td className="px-5 py-3 text-muted-foreground">{format(new Date(row.created_at), "d MMM yyyy")}</td>
                     <td className="px-5 py-3">
                       <div className="flex justify-end gap-1">
-                        <Link to="/quotes/$id" params={{ id: row.id }}><Button size="icon" variant="ghost"><Eye className="h-4 w-4" /></Button></Link>
-                        <Button size="icon" variant="ghost" onClick={() => duplicate(row)}><Copy className="h-4 w-4" /></Button>
-                        <Button size="icon" variant="ghost" onClick={() => remove(row.id)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+                        <Link to="/quotes/$id" params={{ id: row.id }}><Button size="icon" variant="ghost" aria-label={`View quote ${row.quote_number}`}><Eye className="h-4 w-4" /></Button></Link>
+                        <Button size="icon" variant="ghost" aria-label={`Duplicate quote ${row.quote_number}`} onClick={() => duplicate(row)}><Copy className="h-4 w-4" /></Button>
+                        <Button size="icon" variant="ghost" aria-label={`Delete quote ${row.quote_number}`} onClick={() => remove(row.id)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
                       </div>
                     </td>
                   </tr>

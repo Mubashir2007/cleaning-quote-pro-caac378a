@@ -136,9 +136,9 @@ function CustomersPage() {
                     <td className="px-5 py-3 text-muted-foreground">{[c.city, c.postcode].filter(Boolean).join(", ") || "—"}</td>
                     <td className="px-5 py-3">
                       <div className="flex justify-end gap-1">
-                        <Button variant="ghost" size="icon" onClick={()=>openEdit(c)}><Pencil className="h-4 w-4" /></Button>
+                        <Button variant="ghost" size="icon" aria-label={`Edit ${c.full_name}`} onClick={()=>openEdit(c)}><Pencil className="h-4 w-4" /></Button>
                         <AlertDialog>
-                          <AlertDialogTrigger asChild><Button variant="ghost" size="icon"><Trash2 className="h-4 w-4 text-destructive" /></Button></AlertDialogTrigger>
+                          <AlertDialogTrigger asChild><Button variant="ghost" size="icon" aria-label={`Delete ${c.full_name}`}><Trash2 className="h-4 w-4 text-destructive" /></Button></AlertDialogTrigger>
                           <AlertDialogContent>
                             <AlertDialogHeader><AlertDialogTitle>Delete {c.full_name}?</AlertDialogTitle>
                               <AlertDialogDescription>This cannot be undone. Quotes linked to this customer will block deletion.</AlertDialogDescription></AlertDialogHeader>
