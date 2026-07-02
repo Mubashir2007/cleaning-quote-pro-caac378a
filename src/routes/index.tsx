@@ -3,8 +3,43 @@ import { useAuth } from "@/hooks/use-auth";
 import { Sparkles, ShieldCheck, Zap, FileText } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 
+const SITE_URL = "https://free-speed-quoate.lovable.app";
+
 export const Route = createFileRoute("/")({
   ssr: false,
+  head: () => ({
+    meta: [
+      { title: "Cleaning Quote Pro — Professional Cleaning Quotes in Minutes" },
+      { name: "description", content: "Cleaning Quote Pro helps cleaning companies generate branded, itemised quotations in under a minute. Manage customers, pricing, and quotes in one place." },
+      { property: "og:title", content: "Cleaning Quote Pro — Professional Cleaning Quotes in Minutes" },
+      { property: "og:description", content: "Generate branded cleaning quotations in under a minute. Customers, pricing, and quotes in one place." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: `${SITE_URL}/` },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [{ rel: "canonical", href: `${SITE_URL}/` }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "Cleaning Quote Pro",
+          url: SITE_URL,
+          description: "SaaS for cleaning companies to create professional quotations in under a minute.",
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "Cleaning Quote Pro",
+          url: SITE_URL,
+        }),
+      },
+    ],
+  }),
   component: Landing,
 });
 
