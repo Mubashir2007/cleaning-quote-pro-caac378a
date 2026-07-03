@@ -42,11 +42,12 @@ export const Route = createFileRoute("/")({
 });
 
 /* ---------- shared motion helpers ---------- */
-const fadeUp = {
+const fadeUp: import("framer-motion").Variants = {
   hidden: { opacity: 0, y: 24 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as const } },
 };
-const stagger = { show: { transition: { staggerChildren: 0.08 } } };
+const stagger: import("framer-motion").Variants = { show: { transition: { staggerChildren: 0.08 } } };
+
 
 function Reveal({ children, className, delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
   return (
