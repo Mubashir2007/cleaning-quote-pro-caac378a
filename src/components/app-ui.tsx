@@ -26,9 +26,10 @@ export function EmptyState({
   );
 }
 
-export function StatusBadge({ status }: { status: "pending" | "accepted" | "rejected" | "completed" }) {
+export function StatusBadge({ status }: { status: "pending" | "sent" | "accepted" | "rejected" | "completed" }) {
   const styles: Record<string, string> = {
     pending: "bg-warning/15 text-warning-foreground border-warning/30",
+    sent: "bg-blue-500/10 text-blue-600 border-blue-500/30 dark:text-blue-400",
     accepted: "bg-success/15 text-success border-success/30",
     rejected: "bg-destructive/10 text-destructive border-destructive/30",
     completed: "bg-primary/10 text-primary border-primary/30",
