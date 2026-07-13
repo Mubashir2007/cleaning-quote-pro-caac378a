@@ -2,7 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Printer, Pencil, Save } from "lucide-react";
+import { ArrowLeft, Printer, Pencil, Send, Copy, Check, X } from "lucide-react";
 import { format } from "date-fns";
 import {
   EXTRA_OPTIONS, cleaningTypeLabel, frequencyLabel, formatMoney,
