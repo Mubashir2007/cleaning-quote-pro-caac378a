@@ -45,11 +45,53 @@ function QuoteDetailPage() {
   const currency = profile?.currency ?? "GBP";
   const extras = (quote.extras as unknown as ExtraKey[]) ?? [];
 
-  const updateStatus = async (s: "pending" | "accepted" | "rejected" | "completed") => {
+  const updateStatus = async (s: "pending" | "sent" | "accepted" | "rejected" | "completed") => {
     const { error } = await supabase.from("quotes").update({ status: s }).eq("id", quote.id);
     if (error) return toast.error(error.message);
     toast.success("Status updated");
     load();
+  };
+
+  const ensureTokens = async () => {
+    if (quote.accept_token && quote.reject_token) return { accept: quote.accept_token, reject: quote.reject_token };
+    const rand = () => crypto.getRandomValues(new Uint8Array(24)).reduce((s, b) => s + b.toString(16).padStart(2, "0"), "");
+    const accept = rand(), reject = rand();
+    const { error } = await supabase.from("quotes")
+      .update({ accept_token: accept, reject_token: reject, status: "sent", sent_at: new Date().toISOString() })
+      .eq("id", quote.id);
+    if (error) { toast.error(error.message); return null; }
+    await load();
+    return { accept, reject };
+  };
+
+  const sendToCustomer = async () => {
+    if (!quote.customers?.email) return toast.error("Customer has no email address on file.");
+    const t = await ensureTokens();
+    if (!t) return;
+    const base = window.location.origin;
+    const acceptUrl = `${base}/q/${t.accept}`;
+    const rejectUrl = `${base}/q/${t.reject}`;
+    const subject = encodeURIComponent(`Quotation ${quote.quote_number} from ${profile?.company_name ?? "us"}`);
+    const body = encodeURIComponent(
+`Hi ${quote.customers.full_name},
+
+Please find your quotation ${quote.quote_number} for ${formatMoney(quote.total, currency)}.
+
+Approve the quote: ${acceptUrl}
+Decline the quote: ${rejectUrl}
+
+Thank you,
+${profile?.company_name ?? ""}`);
+    window.location.href = `mailto:${quote.customers.email}?subject=${subject}&body=${body}`;
+    toast.success("Quote marked as sent. Your email client is opening.");
+  };
+
+  const copyLink = async (kind: "accept" | "reject") => {
+    const t = await ensureTokens();
+    if (!t) return;
+    const url = `${window.location.origin}/q/${kind === "accept" ? t.accept : t.reject}`;
+    await navigator.clipboard.writeText(url);
+    toast.success(`${kind === "accept" ? "Accept" : "Reject"} link copied`);
   };
 
   return (
@@ -59,15 +101,19 @@ function QuoteDetailPage() {
           <ArrowLeft className="mr-2 h-4 w-4" />Back to quotes
         </Button>
         <div className="flex flex-wrap items-center gap-2">
-          <Select value={quote.status} onValueChange={(v) => updateStatus(v as "pending" | "accepted" | "rejected" | "completed")}>
+          <Select value={quote.status} onValueChange={(v) => updateStatus(v as "pending" | "sent" | "accepted" | "rejected" | "completed")}>
             <SelectTrigger className="w-36"><SelectValue /></SelectTrigger>
             <SelectContent>
               <SelectItem value="pending">Pending</SelectItem>
+              <SelectItem value="sent">Sent</SelectItem>
               <SelectItem value="accepted">Accepted</SelectItem>
               <SelectItem value="rejected">Rejected</SelectItem>
               <SelectItem value="completed">Completed</SelectItem>
             </SelectContent>
           </Select>
+          <Button variant="outline" onClick={() => copyLink("accept")}><Check className="mr-2 h-4 w-4 text-success" />Accept link</Button>
+          <Button variant="outline" onClick={() => copyLink("reject")}><X className="mr-2 h-4 w-4 text-destructive" />Reject link</Button>
+          <Button onClick={sendToCustomer}><Send className="mr-2 h-4 w-4" />Send to customer</Button>
           <Button variant="outline" onClick={() => window.print()}>
             <Printer className="mr-2 h-4 w-4" />Download PDF
           </Button>
