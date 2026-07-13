@@ -175,6 +175,8 @@ export type Database = {
       }
       quotes: {
         Row: {
+          accept_token: string | null
+          accepted_at: string | null
           base_price: number
           bathroom_extra_total: number
           bathrooms: number
@@ -192,6 +194,9 @@ export type Database = {
           living_rooms: number
           notes: string | null
           quote_number: string
+          reject_token: string | null
+          rejected_at: string | null
+          sent_at: string | null
           square_footage: number | null
           status: Database["public"]["Enums"]["quote_status"]
           tax_amount: number
@@ -200,6 +205,8 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          accept_token?: string | null
+          accepted_at?: string | null
           base_price?: number
           bathroom_extra_total?: number
           bathrooms?: number
@@ -217,6 +224,9 @@ export type Database = {
           living_rooms?: number
           notes?: string | null
           quote_number?: string
+          reject_token?: string | null
+          rejected_at?: string | null
+          sent_at?: string | null
           square_footage?: number | null
           status?: Database["public"]["Enums"]["quote_status"]
           tax_amount?: number
@@ -225,6 +235,8 @@ export type Database = {
           user_id: string
         }
         Update: {
+          accept_token?: string | null
+          accepted_at?: string | null
           base_price?: number
           bathroom_extra_total?: number
           bathrooms?: number
@@ -242,6 +254,9 @@ export type Database = {
           living_rooms?: number
           notes?: string | null
           quote_number?: string
+          reject_token?: string | null
+          rejected_at?: string | null
+          sent_at?: string | null
           square_footage?: number | null
           status?: Database["public"]["Enums"]["quote_status"]
           tax_amount?: number
@@ -264,12 +279,37 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      act_on_quote_by_token: {
+        Args: { _action: string; _token: string }
+        Returns: {
+          accepted_at: string
+          company_name: string
+          currency: string
+          quote_number: string
+          rejected_at: string
+          status: Database["public"]["Enums"]["quote_status"]
+          total: number
+        }[]
+      }
+      get_quote_by_token: {
+        Args: { _token: string }
+        Returns: {
+          accepted_at: string
+          action: string
+          company_name: string
+          currency: string
+          customer_name: string
+          quote_number: string
+          rejected_at: string
+          status: Database["public"]["Enums"]["quote_status"]
+          total: number
+        }[]
+      }
     }
     Enums: {
       cleaning_type: "regular" | "deep" | "end_of_tenancy" | "office" | "airbnb"
       frequency: "one_time" | "weekly" | "fortnightly" | "monthly"
-      quote_status: "pending" | "accepted" | "rejected" | "completed"
+      quote_status: "pending" | "accepted" | "rejected" | "completed" | "sent"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -399,7 +439,7 @@ export const Constants = {
     Enums: {
       cleaning_type: ["regular", "deep", "end_of_tenancy", "office", "airbnb"],
       frequency: ["one_time", "weekly", "fortnightly", "monthly"],
-      quote_status: ["pending", "accepted", "rejected", "completed"],
+      quote_status: ["pending", "accepted", "rejected", "completed", "sent"],
     },
   },
 } as const
