@@ -122,12 +122,13 @@ function QuotesListPage() {
                     <td className="px-5 py-3">{cleaningTypeLabel(row.cleaning_type as CleaningType)}</td>
                     <td className="px-5 py-3 font-medium">{formatMoney(row.total, currency)}</td>
                     <td className="px-5 py-3">
-                      <Select value={row.status} onValueChange={(v) => changeStatus(row.id, v as "pending" | "accepted" | "rejected" | "completed")}>
+                      <Select value={row.status} onValueChange={(v) => changeStatus(row.id, v as "pending" | "sent" | "accepted" | "rejected" | "completed")}>
                         <SelectTrigger className="h-7 w-32 border-0 bg-transparent p-0 hover:bg-transparent focus:ring-0">
                           <StatusBadge status={row.status} />
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="pending">Pending</SelectItem>
+                          <SelectItem value="sent">Sent</SelectItem>
                           <SelectItem value="accepted">Accepted</SelectItem>
                           <SelectItem value="rejected">Rejected</SelectItem>
                           <SelectItem value="completed">Completed</SelectItem>
