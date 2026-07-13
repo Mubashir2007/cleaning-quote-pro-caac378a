@@ -62,7 +62,7 @@ function QuotesListPage() {
     toast.success("Deleted");
     load();
   };
-  const changeStatus = async (id: string, newStatus: "pending" | "accepted" | "rejected" | "completed") => {
+  const changeStatus = async (id: string, newStatus: "pending" | "sent" | "accepted" | "rejected" | "completed") => {
     const { error } = await supabase.from("quotes").update({ status: newStatus }).eq("id", id);
     if (error) return toast.error(error.message);
     load();
