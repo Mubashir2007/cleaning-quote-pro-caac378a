@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Check, X, Loader2, ShieldCheck } from "lucide-react";
 import { format } from "date-fns";
+import { getQuoteByToken, actOnQuoteByToken } from "@/lib/quote-token.functions";
 
 export const Route = createFileRoute("/q/$token")({
   component: QuoteReviewPage,
@@ -37,22 +37,27 @@ function QuoteReviewPage() {
 
   useEffect(() => {
     (async () => {
-      // Types file may not know these RPCs yet — cast to any for the call.
-      const { data, error } = await (supabase.rpc as any)("get_quote_by_token", { _token: token });
-      if (error) setError(error.message);
-      else if (!data || data.length === 0) setError("This link is invalid or has expired.");
-      else setInfo(data[0] as QuoteInfo);
+      try {
+        const row = await getQuoteByToken({ data: { token } });
+        if (!row) setError("This link is invalid or has expired.");
+        else setInfo(row as QuoteInfo);
+      } catch (e: any) {
+        setError(e?.message ?? "Failed to load quote.");
+      }
       setLoading(false);
     })();
   }, [token]);
 
   const submit = async (action: "accept" | "reject") => {
     setSubmitting(true);
-    const { data, error } = await (supabase.rpc as any)("act_on_quote_by_token", { _token: token, _action: action });
+    try {
+      const row = await actOnQuoteByToken({ data: { token, action } });
+      if (row) setInfo({ ...info!, ...(row as Partial<QuoteInfo>) });
+      setDone(true);
+    } catch (e: any) {
+      setError(e?.message ?? "Failed to submit.");
+    }
     setSubmitting(false);
-    if (error) { setError(error.message); return; }
-    if (data && data[0]) setInfo({ ...info!, ...data[0] });
-    setDone(true);
   };
 
   if (loading) {
